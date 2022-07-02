@@ -74,7 +74,6 @@ deps = [
 
 private_deps = [
   gio_unix_dep,
-  libcanberra_gtk_dep,
   libnotify_dep,
   libudev_dep,
 ]

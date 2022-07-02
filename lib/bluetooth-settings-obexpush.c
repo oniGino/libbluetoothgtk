@@ -32,8 +32,6 @@
 #include <gtk/gtk.h>
 #include <bluetooth-client.h>
 #include <libnotify/notify.h>
-#include <canberra-gtk.h>
-
 #include "bluetooth-settings-obexpush.h"
 
 #define MANAGER_SERVICE	"org.bluez.obex"
@@ -130,7 +128,6 @@ show_notification (const char *filename)
 {
 	char *file_uri, *notification_text, *display, *mime_type;
 	NotifyNotification *notification;
-	ca_context *ctx;
 	GAppInfo *app;
 
 	file_uri = g_filename_to_uri (filename, NULL, NULL);
@@ -171,12 +168,12 @@ show_notification (const char *filename)
 	}
 	g_free (notification_text);
 
-	/* Now we do the audio notification */
-	ctx = ca_gtk_context_get ();
-	ca_context_play (ctx, 0,
-			 CA_PROP_EVENT_ID, "complete-download",
-			 CA_PROP_EVENT_DESCRIPTION, _("File reception complete"),
-			 NULL);
+	/* TODO: Add Play Audio replacement? */
+	notification_sound = notify_notification_new (_("You received a file"),
+					NULL,
+					NULL);
+	notify_notification_set_hint_string (notification_sound, "sound-name", "complete-download");
+	notify_notification_show (notification_sound, NULL))
 }
 
 static void
